@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.io Simple Example</title>
+  </head>
+  <style type="text/css" media="screen">
+    #sensor {
+      font-size: 75px;
+      font-weight: bold;
+      margin-top: 250px;
+      vertical-align: center;
+      width: 100%;
+      text-align: center;
+    }
+
+  </style>
+  <body>
+    <div id="sensor" text-align:center>Unknown</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+       var socket = io();
+        // $('#toggleButton').on('click', function() {
+        // socket.emit('toggle', {state:true});
+        //});
+       socket.on('dht-temp', function(message) {
+         console.log(message);
+          $('#sensor').html('Temperature: ' + message + "<br>");
+        });
+        socket.on('dht-humid', function(message){
+          console.log(message);
+          $('#sensor').append('Humidity: ' + message);
+        })
+    </script>
+  </body>
+</html>
+
