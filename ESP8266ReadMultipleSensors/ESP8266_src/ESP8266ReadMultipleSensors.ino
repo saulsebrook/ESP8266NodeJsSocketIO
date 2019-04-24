@@ -13,16 +13,19 @@
 DHT dht(DHTPIN, DHTTYPE);
 // Variable so that the If Else statement in the loop will only run once
 int tracker = 0;
+unsigned long currentTime;
+long timeDelay = 30000;
+unsigned long previousTime = 0;
 
-String host = "192.168.1.117";
-int port = 3000;
+String host = "192.168.1.2";
+int port = 8080;
 bool clicked = false;
 
 SocketIOClient socket;
 
 void setupNetwork() {
     WiFi.begin("It Burns When IP", "lucy1816647"); 
-    Serial.print("Waiting to connect...");
+    Serial.println("Waiting to connect...");
     while (WiFi.status() != WL_CONNECTED) { 
         delay(500);
         Serial.print(".");
@@ -34,23 +37,26 @@ void click() {
 }
 
 void sendTemp() {
-  if (isnan(dht.readTemperature())) {
-    Serial.println(F("Failed to read from DHT sensor!"));
+  currentTime = millis();
+  if(currentTime - previousTime >= timeDelay){
+    previousTime = currentTime;
+    if (isnan(dht.readTemperature())) {
+      Serial.println(F("Failed to read from DHT sensor!"));
+    }
+    else{
+      Serial.print(F("Temperature: ")); 
+      Serial.println(dht.readTemperature());
+      socket.emit("dht-temp", String(dht.readTemperature()));
+    }
+    if (isnan(dht.readHumidity())){ 
+      socket.emit("dht", "Error gettiing humidity");
+    }
+    else{
+      Serial.print(F("Humidity: "));
+      Serial.println(String(dht.readHumidity()));
+      socket.emit("dht-humid", String(dht.readHumidity())); 
+    }
   }
-  else{
-    Serial.print(F("Temperature: ")); 
-    Serial.println(dht.readTemperature());
-    socket.emit("dht-temp", String(dht.readTemperature()));
-  }
-  if (isnan(dht.readHumidity())){ 
-    socket.emit("dht", "Error gettiing humidity");
-  }
-  else{
-    Serial.print(F("Humidity: "));
-    Serial.println(String(dht.readHumidity()));
-    socket.emit("dht-humid", String(dht.readHumidity())); 
-  }
-  delay(30000);
 }
 
 void light(String state) {
