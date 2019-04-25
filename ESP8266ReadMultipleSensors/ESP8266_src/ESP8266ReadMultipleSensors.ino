@@ -24,7 +24,7 @@ bool clicked = false;
 SocketIOClient socket;
 
 void setupNetwork() {
-    WiFi.begin("It Burns When IP", "lucy1816647"); 
+    WiFi.begin("WIFINAME", "PASSWORD"); 
     Serial.println("Waiting to connect...");
     while (WiFi.status() != WL_CONNECTED) { 
         delay(500);
