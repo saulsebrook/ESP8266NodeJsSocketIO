@@ -20,9 +20,6 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
        var socket = io();
-        // $('#toggleButton').on('click', function() {
-        // socket.emit('toggle', {state:true});
-        //});
        socket.on('dht-temp', function(message) {
          console.log(message);
           $('#sensor').html('Temperature: ' + message + "<br>");
