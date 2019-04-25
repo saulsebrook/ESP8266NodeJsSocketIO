@@ -18,7 +18,7 @@ SocketIOClient socket;
 
 void setupNetwork() {
 
-  WiFi.begin("It Burns When IP", "lucy1816647"); 
+  WiFi.begin("WIFINAME", "PASSWORD"); 
   Serial.print("Waiting to connect...");
   while (WiFi.status() != WL_CONNECTED) { 
     delay(500);
@@ -26,19 +26,12 @@ void setupNetwork() {
   }
 }
 
-
-
-
 void setup() {
 
-  // set up our pins
-  //pinMode(DHT, INPUT);
   dht.begin();
   Serial.begin(115200);
 
   setupNetwork();
-
-  //socket.on("dht", light);
 
   socket.connect(host, port);
 }
@@ -63,14 +56,6 @@ void sendTemp() {
   delay(5000);
 }
 
-//
-// This code runs over and over again
-//
 void loop() {
-  //socket.monitor();
-//float h = dht.readHumidity();
-//Serial.print(F("Humidity: "));
- // Serial.print(h);
-  delay(1000);
   sendTemp();
 }
