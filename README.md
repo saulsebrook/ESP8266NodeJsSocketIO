@@ -13,4 +13,4 @@ Code to allow an ESP8266 talk to a locally hosted Node.js server implementing so
   
     
     
-**#TODO** increase the delay of the DHT sensor, work out a way to run a function asynchronously using c++
+
