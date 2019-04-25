@@ -2,8 +2,6 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var sensor = {state:false};
-var message_temp = "";
-var message_humid = "";
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -17,12 +15,10 @@ io.on('connection', function(socket) {
   });
   
   socket.on('dht-temp', function(message) { 
-    //sensor.state = !sensor.state;
     console.log('id: ' + socket.id + "Temperature: " + message);
     io.sockets.emit('dht-temp', message);
   });
   socket.on('dht-humid', function(message) { 
-    //sensor.state = !sensor.state;
     console.log('id: ' + socket.id + "Humidity:  " + message);
     io.sockets.emit('dht-humid', message);
   });
